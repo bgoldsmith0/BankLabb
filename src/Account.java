@@ -14,9 +14,12 @@ public class Account {
 
     public void deposit(double in) {
         balance = balance + in;
+        transactions++;
     }
 
     public void withdraw(double out) {
         balance = balance - out;
+        transactions++;
     }
+
 }
