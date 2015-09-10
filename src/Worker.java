@@ -6,16 +6,17 @@ import java.util.ArrayList;
 public class Worker implements Runnable {
     public static ArrayList<Account> acts;
     public Transaction toDeal;
-    public ArrayList<Account> currentAccounts;
+    public ArrayList<Account> accounts;
     public int workerID;
 
     public Worker(int is, ArrayList<Account> f) {
         workerID = is;
-        acts = f;
+        accounts = f;
 
     }
 
     public void run() {
+
         while (accounts.get(t.getFrom()).isInUse()) {
 
         }
