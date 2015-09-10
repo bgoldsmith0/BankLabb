@@ -5,10 +5,10 @@ public class Account {
 
     public int iD;
     public int transactions = 0;
-    public double balance = 0;
+    public double balance = 1000;
     public boolean inUse = false;
 
-    public Account(int iD, double balance) {
+    public Account(int iD) {
         this.iD = iD;
         this.balance = balance;
     }
