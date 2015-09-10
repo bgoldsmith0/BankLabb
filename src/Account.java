@@ -6,6 +6,7 @@ public class Account {
     public int iD;
     public int transactions = 0;
     public double balance = 0;
+    public boolean inUse = false;
 
     public Account(int iD, double balance) {
         this.iD = iD;
@@ -13,13 +14,26 @@ public class Account {
     }
 
     public void deposit(double in) {
+        while (inUse) {
+        }
+        inUse = true;
         balance = balance + in;
         transactions++;
+        inUse = false;
     }
 
     public void withdraw(double out) {
+        while (inUse) {
+
+        }
+        inUse = true;
         balance = balance - out;
         transactions++;
+        inUse = false;
+    }
+
+    public boolean isInUse() {
+        return inUse;
     }
 
 }
