@@ -10,7 +10,7 @@ public class Account {
 
     public Account(int iD) {
         this.iD = iD;
-        this.balance = balance;
+        //this.balance = balance;
     }
 
     public void deposit(double in) {
