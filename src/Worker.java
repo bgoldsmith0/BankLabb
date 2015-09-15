@@ -7,35 +7,27 @@ public class Worker implements Runnable {
     public Transaction t;
     public Bank b;
     public int workerID;
+    public boolean done;
 
     public Worker(int is, Bank ba) {
         workerID = is;
         b=ba;
-
+        done=false;
     }
 
     public void run() {
+        t=b.getTrans();
+        if(t.getFrom()!=-1) {
+            while (b.accounts.get(t.getFrom()).isInUse()) {
 
-        while (b.accounts.get(t.getFrom()).isInUse()) {
+            }
+            b.accounts.get(t.getFrom()).withdraw(t.getAmount());
+            while (b.accounts.get(t.getTo()).isInUse()) {
 
+            }
+            b.accounts.get(t.getTo()).deposit(t.getAmount());
         }
-        b.accounts.get(t.getFrom()).withdraw(t.getAmount());
-        while (b.accounts.get(t.getTo()).isInUse()) {
-
-        }
-        b.accounts.get(t.getTo()).deposit(t.getAmount());
-
+        else
+            done=false;
     }
-
-//    public void doT(Transaction t, ArrayList<Account> accounts) {
-//        while (accounts.get(t.getFrom()).isInUse()) {
-//
-//        }
-//        accounts.get(t.getFrom()).withdraw(t.getAmount());
-//        while (accounts.get(t.getTo()).isInUse()) {
-//
-//        }
-//        accounts.get(t.getTo()).deposit(t.getAmount());
-//
-//    }
 }
