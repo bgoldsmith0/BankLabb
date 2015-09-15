@@ -8,26 +8,19 @@ public class Worker implements Runnable {
     public Transaction t;
     public Bank b;
     public int workerID;
-    public boolean started;
+    private boolean going;
 
-    private final CountDownLatch startSignal;
-    private final CountDownLatch doneSignal;
+    private CountDownLatch latch;
 
-    public Worker(int is,Bank ba,CountDownLatch startSignal,CountDownLatch doneSignal) {
-        this.startSignal = startSignal;
-        this.doneSignal = doneSignal;
+    public Worker(int is,Bank ba,CountDownLatch latch) {
+        this.latch=latch;
         workerID = is;
         b=ba;
-        started=false;
+        going=true;
     }
 
     public void run() {
-        try {
-            if(!started) {
-                startSignal.await();
-                started = true;
-            }
-
+        while(going) {
             t = b.getTrans();
             if (t.getFrom() != -1) {
                 while (b.accounts.get(t.getFrom()).isInUse()) {
@@ -39,8 +32,10 @@ public class Worker implements Runnable {
                 }
                 b.accounts.get(t.getTo()).deposit(t.getAmount());
             }
-            else
-                doneSignal.countDown();
-        }catch(InterruptedException e){}
+            else {
+                latch.countDown();
+                going=false;
+            }
+        }
     }
 }
