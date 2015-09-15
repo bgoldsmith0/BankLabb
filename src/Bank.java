@@ -3,8 +3,8 @@ import java.util.*;
 import java.io.File;
 
 public class Bank{
-    public ArrayBlockingQueue<Transaction> list;
-    public ArrayList<Account> accounts;
+    public ArrayBlockingQueue<Transaction> list = new ArrayBlockingQueue<Transaction>(100000);
+    public ArrayList<Account> accounts = new ArrayList<Account>();
 
     public static void main(String[] args) {
         Bank bank = new Bank();
@@ -33,10 +33,12 @@ public class Bank{
     public String toString(){
         String s="";
 
-        for(Account a:this.accounts)
-            s+="acct:"+a.iD+" bal:"+a.balance+" trans:"+a.transactions+"" +
-                    "\n";
-
+        if(this.accounts!=null)
+            for(Account a:this.accounts)
+                if(a!=null) {
+                    s += "acct:" + a.iD + " bal:" + a.balance + " trans:" + a.transactions + "" +
+                            "\n";
+                }
         return s;
     }
 }
