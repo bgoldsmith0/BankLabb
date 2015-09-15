@@ -4,9 +4,9 @@
 public class Transaction {
     int withdrawAccount;
     int depositAccount;
-    double amount;
+    int amount;
 
-    public Transaction(int from, int to, double amount) {
+    public Transaction(int from,int to,int amount) {
         withdrawAccount = from;
         depositAccount = to;
         this.amount = amount;
@@ -20,7 +20,7 @@ public class Transaction {
         return depositAccount;
     }
 
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
 }

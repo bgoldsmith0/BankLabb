@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * Created by movec_000 on 2015-09-09.
@@ -7,27 +8,39 @@ public class Worker implements Runnable {
     public Transaction t;
     public Bank b;
     public int workerID;
-    public boolean done;
+    public boolean started;
 
-    public Worker(int is, Bank ba) {
+    private final CountDownLatch startSignal;
+    private final CountDownLatch doneSignal;
+
+    public Worker(int is,Bank ba,CountDownLatch startSignal,CountDownLatch doneSignal) {
+        this.startSignal = startSignal;
+        this.doneSignal = doneSignal;
         workerID = is;
         b=ba;
-        done=false;
+        started=false;
     }
 
     public void run() {
-        t=b.getTrans();
-        if(t.getFrom()!=-1) {
-            while (b.accounts.get(t.getFrom()).isInUse()) {
-
+        try {
+            if(!started) {
+                startSignal.await();
+                started = true;
             }
-            b.accounts.get(t.getFrom()).withdraw(t.getAmount());
-            while (b.accounts.get(t.getTo()).isInUse()) {
 
+            t = b.getTrans();
+            if (t.getFrom() != -1) {
+                while (b.accounts.get(t.getFrom()).isInUse()) {
+
+                }
+                b.accounts.get(t.getFrom()).withdraw(t.getAmount());
+                while (b.accounts.get(t.getTo()).isInUse()) {
+
+                }
+                b.accounts.get(t.getTo()).deposit(t.getAmount());
             }
-            b.accounts.get(t.getTo()).deposit(t.getAmount());
-        }
-        else
-            done=false;
+            else
+                doneSignal.countDown();
+        }catch(InterruptedException e){}
     }
 }

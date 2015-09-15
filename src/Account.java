@@ -5,7 +5,7 @@ public class Account {
 
     public int iD;
     public int transactions = 0;
-    public double balance = 1000;
+    public int balance = 1000;
     public boolean inUse = false;
 
     public Account(int iD) {
@@ -13,7 +13,7 @@ public class Account {
         //this.balance = balance;
     }
 
-    public void deposit(double in) {
+    public void deposit(int in) {
         while (inUse) {
         }
         inUse = true;
@@ -22,7 +22,7 @@ public class Account {
         inUse = false;
     }
 
-    public void withdraw(double out) {
+    public void withdraw(int out) {
         while (inUse) {
 
         }
